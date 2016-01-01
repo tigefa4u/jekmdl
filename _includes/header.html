@@ -3,7 +3,7 @@
           <span class="mdl-layout-title">{{ site.title }}</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-          <form action='/search.html' method='get' name='searchform'>
+          <form action='{{ "/search.html" | prepend: site.baseurl }}' method='get' name='searchform'>
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
               <i class="material-icons">search</i>
             </label>
