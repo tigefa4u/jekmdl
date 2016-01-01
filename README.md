@@ -14,6 +14,7 @@ categories: jekmdl posts
 
 ### Google custom search engine (CSE)
 Create on [Google](https://cse.google.com/cse/create/new)
+after create, select themes result only.
 ```yaml
 gcse: 006270711061491111331:wbfhsrae2vk
 ```
