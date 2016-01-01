@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<div class="jekmdl-crumbs mdl-color-text--grey-500">
+{{ site.title }} &gt; {{ page.title }}
+</div>
+<h3>Posts</h3>
+<ul class="jekmdl-post-list">{% for post in site.posts %}
+<li>
+<h2>
+<a class="jekmdl-post-list" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> &gt;&gt; {{ site.time | date_to_long_string }}
+</h2>
+</li>
+{% endfor %}
+</ul>
+
+<a href="{{ "/feed.xml" | prepend: site.baseurl }}"><button class="mdl-button mdl-js-button mdl-button--primary">via RSS</button></a>

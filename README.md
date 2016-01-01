@@ -1,2 +1,18 @@
 # jekmdl
-Jekyll themes use Material Design Lite
+The [Jekyll](http://jekyllrb.com) best bloging platform using comand line (CLI), themes use [Material Design Lite](http://getmdl.io)
+
+### Posting
+```yaml
+---
+layout: post
+title: "All Posts Components"
+date: 2016-01-01 18:54:28 +07:00
+author: sugeng tigefa
+categories: jekmdl posts
+---
+```
+
+### Google custom search engine (CSE)
+```yaml
+gcse: 006270711061491111331:wbfhsrae2vk
+```

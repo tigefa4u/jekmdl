@@ -1,0 +1,12 @@
+<footer class="jekmdl-footer mdl-mini-footer">
+  <div class="mdl-mini-footer--left-section">
+    <ul class="mdl-mini-footer--link-list">
+      <li>&copy; 2016 <strong>{{ site.title }}</strong> is proudly powered by <a href='http://jekyllrb.com' target='_blank'>Jekyll</a></li>
+      <li><a href="{{ "/" | prepend: site.baseurl }}">Home</a></li>
+      {% for my_page in site.pages %}{% if my_page.title %}
+      <li><a href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></li>
+      {% endif %}{% endfor %}
+    </ul>
+  </div>
+</footer>
+<script src="{{ "/js/material.min.js" | prepend: site.baseurl }}"></script>
