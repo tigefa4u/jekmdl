@@ -13,7 +13,7 @@ categories: jekmdl posts
 ```
 
 ### Google custom search engine (CSE)
-Create on [Google](https://cse.google.com/cse/all)
+Create on [Google](https://cse.google.com/cse/create/new)
 ```yaml
 gcse: 006270711061491111331:wbfhsrae2vk
 ```
