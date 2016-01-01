@@ -1,5 +1,5 @@
 # jekmdl
-The [Jekyll](http://jekyllrb.com) best bloging platform using comand line (CLI), themes use [Material Design Lite](http://getmdl.io)
+The [Jekyll](http://jekyllrb.com) best bloging platform using command line (CLI), themes use [Material Design Lite](http://getmdl.io)
 
 ### Posting
 ```yaml
