@@ -1,5 +1,6 @@
 # [jekmdl](https://github.com/tigefa4u/jekmdl)
 The [Jekyll](http://jekyllrb.com) best bloging platform using command line (CLI), themes use [Material Design Lite](http://getmdl.io)
+![Screenshot](screenshot.jpg)
 
 ### Posting
 ```yaml
