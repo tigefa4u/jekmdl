@@ -50,10 +50,10 @@ The MDL CSS classes apply various predefined visual and behavioral enhancements 
 | `mdl-button--fab` | Applies *fab* (circular) display effect | Mutually exclusive with *raised*, *mini-fab*, and *icon* |
 | `mdl-button--mini-fab` | Applies *mini-fab* (small fab circular) display effect | Mutually exclusive with *raised*, *fab*, and *icon* |
 | `mdl-button--icon` | Applies *icon* (small plain circular) display effect | Mutually exclusive with *raised*, *fab*, and *mini-fab*  |
-| `mdl-button--colored` | Applies *colored* display effect | Colors are defined in `material.min.css` |
+| `mdl-button--colored` | Applies *colored* display effect (primary or accent color, depending on the type of button) | Colors are defined in `material.min.css` |
 | `mdl-button--primary` | Applies *primary* color display effect | Colors are defined in `material.min.css` |
 | `mdl-button--accent` | Applies *accent* color display effect | Colors are defined in `material.min.css` |
 | `mdl-js-ripple-effect` | Applies *ripple* click effect | May be used in combination with any other classes |
 
->**Note:** Disabled versions of all the available button types are provided, and are invoked with the standard HTML boolean attribute `disabled`. `<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" disabled>Raised Ripples Disabled</button>`. Alternatively, the `mdl-button--disabled` class can be used to achieve the same result.
+>**Note:** Disabled versions of all the available button types are provided, and are invoked with the standard HTML boolean attribute `disabled`. `<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" disabled>Raised Ripples Disabled</button>`. Alternatively, the `mdl-button--disabled` class can be used to achieve the same style but it does not disable the functionality of the element.
 >This attribute may be added or removed programmatically via scripting.

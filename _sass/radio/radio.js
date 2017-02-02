@@ -82,7 +82,9 @@
       var button = radios[i].querySelector('.' + this.CssClasses_.RADIO_BTN);
       // Different name == different group, so no point updating those.
       if (button.getAttribute('name') === this.btnElement_.getAttribute('name')) {
-        radios[i]['MaterialRadio'].updateClasses_();
+        if (typeof radios[i]['MaterialRadio'] !== 'undefined') {
+          radios[i]['MaterialRadio'].updateClasses_();
+        }
       }
     }
   };
@@ -202,7 +204,7 @@
    */
   MaterialRadio.prototype.check = function() {
     this.btnElement_.checked = true;
-    this.updateClasses_();
+    this.onChange_(null);
   };
   MaterialRadio.prototype['check'] = MaterialRadio.prototype.check;
 
@@ -213,7 +215,7 @@
    */
   MaterialRadio.prototype.uncheck = function() {
     this.btnElement_.checked = false;
-    this.updateClasses_();
+    this.onChange_(null);
   };
   MaterialRadio.prototype['uncheck'] = MaterialRadio.prototype.uncheck;
 
@@ -267,34 +269,6 @@
       this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
     }
   };
-
-  /**
-   * Downgrade the element.
-   *
-   * @private
-   */
-  MaterialRadio.prototype.mdlDowngrade_ = function() {
-    var rippleContainer = this.element_.querySelector('.' +
-      this.CssClasses_.RIPPLE_CONTAINER);
-    this.btnElement_.removeEventListener('change', this.boundChangeHandler_);
-    this.btnElement_.removeEventListener('focus', this.boundFocusHandler_);
-    this.btnElement_.removeEventListener('blur', this.boundBlurHandler_);
-    this.element_.removeEventListener('mouseup', this.boundMouseUpHandler_);
-    if (rippleContainer) {
-      rippleContainer.removeEventListener('mouseup', this.boundMouseUpHandler_);
-      this.element_.removeChild(rippleContainer);
-    }
-  };
-
-  /**
-   * Public alias for the downgrade method.
-   *
-   * @public
-   */
-  MaterialRadio.prototype.mdlDowngrade = MaterialRadio.prototype.mdlDowngrade_;
-
-  MaterialRadio.prototype['mdlDowngrade'] =
-      MaterialRadio.prototype.mdlDowngrade;
 
   // The component registers itself. It can assume componentHandler is available
   // in the global scope.

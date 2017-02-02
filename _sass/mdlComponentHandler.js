@@ -91,7 +91,6 @@ componentHandler = (function() {
   /** @type {!Array<componentHandler.Component>} */
   var createdComponents_ = [];
 
-  var downgradeMethod_ = 'mdlDowngrade';
   var componentConfigProperty_ = 'mdlComponentConfigInternal_';
 
   /**
@@ -143,6 +142,27 @@ componentHandler = (function() {
   }
 
   /**
+   * Create an event object.
+   *
+   * @param {string} eventType The type name of the event.
+   * @param {boolean} bubbles Whether the event should bubble up the DOM.
+   * @param {boolean} cancelable Whether the event can be canceled.
+   * @returns {!Event}
+   */
+  function createEvent_(eventType, bubbles, cancelable) {
+    if ('CustomEvent' in window && typeof window.CustomEvent === 'function') {
+      return new CustomEvent(eventType, {
+        bubbles: bubbles,
+        cancelable: cancelable
+      });
+    } else {
+      var ev = document.createEvent('Events');
+      ev.initEvent(eventType, bubbles, cancelable);
+      return ev;
+    }
+  }
+
+  /**
    * Searches existing DOM for elements of our component type and upgrades them
    * if they have not already been upgraded.
    *
@@ -186,6 +206,13 @@ componentHandler = (function() {
     if (!(typeof element === 'object' && element instanceof Element)) {
       throw new Error('Invalid argument provided to upgrade MDL element.');
     }
+    // Allow upgrade to be canceled by canceling emitted event.
+    var upgradingEv = createEvent_('mdl-componentupgrading', true, true);
+    element.dispatchEvent(upgradingEv);
+    if (upgradingEv.defaultPrevented) {
+      return;
+    }
+
     var upgradedList = getUpgradedListOfElement_(element);
     var classesToUpgrade = [];
     // If jsClass is not provided scan the registered components to find the
@@ -228,9 +255,8 @@ componentHandler = (function() {
           'Unable to find a registered component for the given class.');
       }
 
-      var ev = document.createEvent('Events');
-      ev.initEvent('mdl-componentupgraded', true, true);
-      element.dispatchEvent(ev);
+      var upgradedEv = createEvent_('mdl-componentupgraded', true, false);
+      element.dispatchEvent(upgradedEv);
     }
   }
 
@@ -242,10 +268,10 @@ componentHandler = (function() {
    */
   function upgradeElementsInternal(elements) {
     if (!Array.isArray(elements)) {
-      if (typeof elements.item === 'function') {
-        elements = Array.prototype.slice.call(/** @type {Array} */ (elements));
-      } else {
+      if (elements instanceof Element) {
         elements = [elements];
+      } else {
+        elements = Array.prototype.slice.call(elements);
       }
     }
     for (var i = 0, n = elements.length, element; i < n; i++) {
@@ -336,44 +362,23 @@ componentHandler = (function() {
   }
 
   /**
-   * Finds a created component by a given DOM node.
-   *
-   * @param {!Node} node
-   * @return {*}
-   */
-  function findCreatedComponentByNodeInternal(node) {
-    for (var n = 0; n < createdComponents_.length; n++) {
-      var component = createdComponents_[n];
-      if (component.element_ === node) {
-        return component;
-      }
-    }
-  }
-
-  /**
    * Check the component for the downgrade method.
    * Execute if found.
    * Remove component from createdComponents list.
    *
-   * @param {*} component
+   * @param {?componentHandler.Component} component
    */
   function deconstructComponentInternal(component) {
-    if (component &&
-        component[componentConfigProperty_]
-          .classConstructor.prototype
-          .hasOwnProperty(downgradeMethod_)) {
-      component[downgradeMethod_]();
+    if (component) {
       var componentIndex = createdComponents_.indexOf(component);
       createdComponents_.splice(componentIndex, 1);
 
       var upgrades = component.element_.getAttribute('data-upgraded').split(',');
-      var componentPlace = upgrades.indexOf(
-          component[componentConfigProperty_].classAsString);
+      var componentPlace = upgrades.indexOf(component[componentConfigProperty_].classAsString);
       upgrades.splice(componentPlace, 1);
       component.element_.setAttribute('data-upgraded', upgrades.join(','));
 
-      var ev = document.createEvent('Events');
-      ev.initEvent('mdl-componentdowngraded', true, true);
+      var ev = createEvent_('mdl-componentdowngraded', true, false);
       component.element_.dispatchEvent(ev);
     }
   }
@@ -389,7 +394,9 @@ componentHandler = (function() {
      * @param  {!Node} node the node to be downgraded
      */
     var downgradeNode = function(node) {
-      deconstructComponentInternal(findCreatedComponentByNodeInternal(node));
+      createdComponents_.filter(function(item) {
+        return item.element_ === node;
+      }).forEach(deconstructComponentInternal);
     };
     if (nodes instanceof Array || nodes instanceof NodeList) {
       for (var n = 0; n < nodes.length; n++) {
